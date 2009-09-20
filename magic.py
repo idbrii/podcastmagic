@@ -1,11 +1,12 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import shutil
 import sys
 import os
 import os.path as path
 
-import magic_config as cfg
+import config as cfg
 
 def require_mp3cut():
     """
@@ -20,20 +21,21 @@ def require_mp3cut():
         sys.exit(-1)
 
 
-def mp3cut(infile, min, sec, outfile):
+def mp3cut(infile, min, sec, outfile, title, artist):
     """
-    mp3cut_command(str, int, int, str) --> None
+    mp3cut_command(str, int, int, str, str, str) --> None
     Run mp3cut on the specified files
 
     outfile - the file to output to
     infile  - the source file
     min,sec - where to start the song
+    title,artist    - id3 tag data
     """
-    # skip noops
+    # skip no-ops
     if min + sec < 0:
         return
 
-    command = "mp3cut -o '%s' -t %d:%d '%s'" % (outfile, min, sec, infile)
+    command = "mp3cut -o '%s' -T '%s' -A '%s' -t %d:%d '%s'" % (outfile, title, artist, min, sec, infile)
     print command
     os.system(command)
 
@@ -68,11 +70,17 @@ def get_start_time(podPath):
     return min,sec
 
 
-def cut_files(fileNames, podPath, min, sec):
+def replace_file(orig, new):
+    shutil.move(new, orig)
+
+def cut_and_replace_files(fileNames, podPath, min, sec):
     for f in fileNames:
         sourceFilePath = path.join(podPath, f)
         targetFilePath = path.join(os.getcwd(), f)
-        mp3cut(path.abspath(sourceFilePath), min, sec, path.abspath(targetFilePath))
+        title = f
+        artist = path.basename(podPath)
+        mp3cut(path.abspath(sourceFilePath), min, sec, path.abspath(targetFilePath), title, artist)
+        replace_file(sourceFilePath, targetFilePath)
 
 
 def main():
@@ -88,7 +96,7 @@ def main():
     for podPath, dn, fileNames in walker:
         print podPath
         min,sec = get_start_time(podPath)
-        cut_files(fileNames, podPath, min, sec)
+        cut_and_replace_files(fileNames, podPath, min, sec)
         print
 
 
