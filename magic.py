@@ -31,10 +31,6 @@ def mp3cut(infile, min, sec, outfile, title, artist):
     min,sec - where to start the song
     title,artist    - id3 tag data
     """
-    # skip no-ops
-    if min + sec < 0:
-        return
-
     command = "mp3cut -o '%s' -T '%s' -A '%s' -t %d:%d '%s'" % (outfile, title, artist, min, sec, infile)
     print command
     os.system(command)
@@ -66,6 +62,7 @@ def get_start_time(podPath):
         min, sec = seconds_to_min_sec(cfg.startTime[podPath])
     except KeyError:
         print "Warning: No start time set for", podPath
+        min,sec = 0,0
 
     return min,sec
 
@@ -79,8 +76,11 @@ def cut_and_replace_files(fileNames, podPath, min, sec):
         targetFilePath = path.join(os.getcwd(), f)
         title = f
         artist = path.basename(podPath)
-        mp3cut(path.abspath(sourceFilePath), min, sec, path.abspath(targetFilePath), title, artist)
-        replace_file(sourceFilePath, targetFilePath)
+
+        # skip no-ops
+        if min + sec > 0:
+            mp3cut(path.abspath(sourceFilePath), min, sec, path.abspath(targetFilePath), title, artist)
+            replace_file(sourceFilePath, targetFilePath)
 
 
 def main():
