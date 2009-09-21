@@ -4,8 +4,14 @@
 import sys
 import os
 import os.path as path
+import shutil
 
 import config as cfg
+
+
+# TODO:
+    # deal with files after copying. move, delete?
+    # display more progress
 
 def require_mp3cut():
     """
@@ -90,6 +96,11 @@ def cut_and_replace_files(paths, min, sec):
                 path.abspath(sourceFilePath)
                 , path.abspath(targetFilePath)
             )
+
+#        shutil.move(
+#            path.abspath(sourceFilePath)
+#            , 'Trash/.'
+#        )
 
 
 class Paths():

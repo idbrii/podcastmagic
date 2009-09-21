@@ -1,8 +1,18 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+# Where your iPod is mounted
+iPod = '/media/YITHIAN/'
+
+# Where your rebuild_db script is located
+rebuild_db = iPod +'/rebuild_db.py'
+
+# folders
 newCastFolder = '/home/dbriscoe/data/podcasts/New'
 trimCastFolder = '/home/dbriscoe/data/podcasts/Processed'
+listeningFolder = '/home/dbriscoe/data/podcasts/Listening'
+iPodCastFolder = iPod +'podcasts'
+freeSpaceMagic = iPod +'magic'
 
 # trim times
 startTime = {}
@@ -17,4 +27,4 @@ startTime["SearchEngine"] = 13
 
 
 # manage.py
-nFiles = 2
+nFiles = 3
