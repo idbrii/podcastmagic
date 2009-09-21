@@ -75,7 +75,7 @@ def cut_and_replace_files(paths, min, sec):
         title = f
         artist = paths.podcast
 
-        #os.makedirs( cfg.targetFolder )
+        #os.makedirs( cfg.trimCastFolder )
 
         # skip no-ops
         if min + sec > 0:
@@ -110,7 +110,7 @@ def main():
     require_mp3cut()
 
     # create a path walker
-    walker = os.walk(cfg.sourceFolder)
+    walker = os.walk(cfg.newCastFolder)
     # discard podcast-free parent directory
     walker.next()
 
@@ -118,7 +118,7 @@ def main():
     p = Paths()
     for podPath, dn, fileNames in walker:
         p.source = podPath
-        p.target = cfg.targetFolder
+        p.target = cfg.trimCastFolder
         p.podcast = path.basename(podPath)
         p.fileNames = fileNames
 

@@ -8,13 +8,13 @@ import config as cfg
 desiredFiles = []
 
 #   find files in Processed
-fileNames = os.listdir(cfg.targetFolder)
+fileNames = os.listdir(cfg.trimCastFolder)
 # filter out files that aren't mp3s
 fileNames = [f for f in fileNames if f.endswith('.mp3')]
 
 fData = {}
 for f in fileNames:
-    p = path.join(cfg.targetFolder, f)
+    p = path.join(cfg.trimCastFolder, f)
     statinfo = os.stat(p)
     fData[statinfo.st_ctime] = f
 
@@ -32,12 +32,12 @@ for k in fData.keys():
 for f in desiredFiles:
     print f
 
-# start download and trim in new thread
+# start download, trim, and cleanup in new thread
 #os.system()
 
 
 # copy files from Listening  folder to iPod
-#shutil.copy(cfg.sourceFolder)
+#shutil.copy(cfg.newCastFolder)
 
 
 # rebuild the database

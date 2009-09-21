@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-sourceFolder = '/home/dbriscoe/data/podcasts/New/'
-targetFolder = '/home/dbriscoe/data/podcasts/Processed'
+newCastFolder = '/home/dbriscoe/data/podcasts/New'
+trimCastFolder = '/home/dbriscoe/data/podcasts/Processed'
 
 # trim times
 startTime = {}
