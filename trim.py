@@ -75,6 +75,8 @@ def cut_and_replace_files(paths, min, sec):
         title = f
         artist = paths.podcast
 
+        #os.makedirs( cfg.targetFolder )
+
         # skip no-ops
         if min + sec > 0:
             mp3cut(
@@ -82,6 +84,11 @@ def cut_and_replace_files(paths, min, sec):
                 , min, sec
                 , path.abspath(targetFilePath)
                 , title, artist
+            )
+        else:
+            os.link(
+                path.abspath(sourceFilePath)
+                , path.abspath(targetFilePath)
             )
 
 
