@@ -70,8 +70,8 @@ def cut_and_replace_files(paths, min, sec):
     for f in paths.fileNames:
         sourceFilePath = path.join(paths.source, f)
         targetFilePath = path.join(paths.target, f)
-        print 'source:', sourceFilePath
-        print 'target:', targetFilePath
+        #print 'source:', sourceFilePath
+        #print 'target:', targetFilePath
         title = f
         artist = paths.podcast
 
