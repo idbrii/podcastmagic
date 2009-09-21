@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import shutil
 import sys
 import os
 import os.path as path
@@ -48,39 +47,55 @@ def seconds_to_min_sec(seconds):
     >>> seconds_to_min_sec(125)
     (2, 5)
     """
-    sec = seconds%60
+    sec = seconds % 60
     min = seconds / 60
     return min,sec
     
 
-def get_start_time(podPath):
+def get_start_time(podcast):
     """
     get_start_time(path) --> int,int
     Returns the minutes and seconds for the current podcast path
     """
     try:
-        min, sec = seconds_to_min_sec(cfg.startTime[podPath])
+        min, sec = seconds_to_min_sec(cfg.startTime[podcast])
     except KeyError:
-        print "Warning: No start time set for", podPath
+        print "Warning: No start time set for", podcast
         min,sec = 0,0
 
     return min,sec
 
 
-def replace_file(orig, new):
-    shutil.move(new, orig)
-
-def cut_and_replace_files(fileNames, podPath, min, sec):
-    for f in fileNames:
-        sourceFilePath = path.join(podPath, f)
-        targetFilePath = path.join(os.getcwd(), f)
+def cut_and_replace_files(paths, min, sec):
+    for f in paths.fileNames:
+        sourceFilePath = path.join(paths.source, f)
+        targetFilePath = path.join(paths.target, f)
+        print 'source:', sourceFilePath
+        print 'target:', targetFilePath
         title = f
-        artist = path.basename(podPath)
+        artist = paths.podcast
 
         # skip no-ops
         if min + sec > 0:
-            mp3cut(path.abspath(sourceFilePath), min, sec, path.abspath(targetFilePath), title, artist)
-            replace_file(sourceFilePath, targetFilePath)
+            mp3cut(
+                path.abspath(sourceFilePath)
+                , min, sec
+                , path.abspath(targetFilePath)
+                , title, artist
+            )
+
+
+class Paths():
+    """ Struct for several path elements."""
+
+    'The location of the files to be processed'
+    source = ''
+    'The destination for the processed files'
+    target = ''
+    'The short name of the podcast'
+    podcast = ''
+    'The files (no path) to be processed.'
+    fileNames = []
 
 
 def main():
@@ -88,15 +103,21 @@ def main():
     require_mp3cut()
 
     # create a path walker
-    walker = os.walk("Podcasts")
+    walker = os.walk(cfg.sourceFolder)
     # discard podcast-free parent directory
     walker.next()
 
     # cut stuff up
+    p = Paths()
     for podPath, dn, fileNames in walker:
-        print podPath
-        min,sec = get_start_time(podPath)
-        cut_and_replace_files(fileNames, podPath, min, sec)
+        p.source = podPath
+        p.target = cfg.targetFolder
+        p.podcast = path.basename(podPath)
+        p.fileNames = fileNames
+
+        print p.podcast
+        min,sec = get_start_time(p.podcast)
+        cut_and_replace_files(p, min, sec)
         print
 
 
@@ -108,5 +129,4 @@ def _test():
 if __name__ == '__main__':
     #_test()
     main()
-
 
