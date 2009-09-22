@@ -30,4 +30,4 @@ startTime["SearchEngine"] = 13
 
 
 # manage.py
-nFiles = 3
+maxFilesToCopy = 10

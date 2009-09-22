@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import shutil
+import sys
 import os
 import os.path as path
 
@@ -9,12 +10,26 @@ import config as cfg
 
 # TODO:
     # copy a minimum of one of each podcast
-    # catch interrupts during copying and interpret as a skip the copy step
+    # TEST interrupts during copying and interpret as a skip the copy step
     # print more of what's going on
     # run download and trim
+    # copy oldest files first
 
+def abort(msg):
+    print msg
+    print "ABORTING..."
+    sys.exit(-1)
 
-def require_folders():
+def printStep(msg):
+    print
+    print '==', msg, '=='
+
+def printStatus(msg):
+    print msg
+printWarning = printStatus
+printDebug = printStatus
+
+def ensure_folders():
     ###
     # Make sure all of our folders exist
     for f in cfg.folders:
@@ -26,8 +41,8 @@ def require_folders():
 
 
 def select_and_move():
-    ####
-    # Find the files we want to copy
+    printStep( 'Find files to copy' )
+
     desiredFiles = []
     
     # find files in Processed
@@ -43,25 +58,27 @@ def select_and_move():
     
     
     #   find oldest files
-    n = cfg.nFiles
+    n = cfg.maxFilesToCopy
     for k in fData.keys():
         desiredFiles.append( fData[k] )
         n -= 1
         if n is 0:
             break
+
+    printStatus('Found %d files to copy' % len(desiredFiles))
     
     
     #   move to Listening folder
     for f in desiredFiles:
         src = path.join(cfg.trimCastFolder, f)
         dst = path.join(cfg.listeningFolder, f)
-        print 'shutil.move('+ src +', '+ dst +')'
+        printDebug( 'shutil.move('+ src +', '+ dst +')' )
         shutil.move(src, dst)
 
 
 def download_trim_clean():
     ###
-    # Start download, trim, and cleanup in new thread
+    #printStep('Start download, trim, and cleanup in new thread')
     #p = path.normpath('./trim.py')
     #os.system(p)
     pass
@@ -70,37 +87,48 @@ def download_trim_clean():
 def copy_to_ipod():
     ###
     # Copy files from Listening folder to iPod
+    printStep('Begin copy')
     
     # reserve some space
     desiredFiles = os.listdir(cfg.listeningFolder)
-    print 'Making buffer space'
-    #print 'shutil.copy('+ path.join(cfg.listeningFolder, desiredFiles[0]) +', '+ cfg.freeSpaceMagic +')'
-    shutil.copy(path.join(cfg.listeningFolder, desiredFiles[0]), cfg.freeSpaceMagic)
+    printStatus( 'Making buffer space' )
+    printDebug( 'shutil.copy('+ path.join(cfg.listeningFolder, desiredFiles[0]) +', '+ cfg.freeSpaceMagic +')' )
+    try:
+        shutil.copy(path.join(cfg.listeningFolder, desiredFiles[0]), cfg.freeSpaceMagic)
+    except IOError, ex:
+        abort("Error: No space on device. Cannot copy any files (%s)" % ex)
+    except KeyboardInterrupt, ex:
+        printWarning('Interrupt caught, skipping copying step')
+        return      /////// Early Return
     
-    lastFile = None
     for f in desiredFiles:
-        print 'Copying:', f
+        printStatus( 'Copying: %s' % f )
         src = path.join(cfg.listeningFolder, f)
         dst = path.join(cfg.iPodCastFolder, f)
         try:
+            # copy out of listening folder
             shutil.copy(src, dst)
-            lastFile = dst
+            # if successful, then remove from listening folder
+            os.remove(src)
         except IOError, ex:
-            print "Warning: Out of space on device (%s)" % ex
+            printWarning( "Warning: Out of space on device (%s)" % ex )
+            # failure means it will stay in listening folder for the next iPod sync
+        except KeyboardInterrupt, ex:
+            printWarning('Interrupt caught, not copying any more files')
     
     # free up junk space
-    print 'Clearing buffer space'
+    printStatus( 'Clearing buffer space' )
     os.remove(cfg.freeSpaceMagic)
 
 
 def rebuild_ipod():
     ###
-    print 'Rebuild the database'
+    printStep( 'Rebuild the database' )
     p = path.normpath(cfg.rebuild_db)
     os.system(p)
 
 
-require_folders()
+ensure_folders()
 select_and_move()
 #download_trim_clean()
 copy_to_ipod()
