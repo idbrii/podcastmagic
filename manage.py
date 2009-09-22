@@ -17,7 +17,7 @@ import config as cfg
 def require_folders():
     ###
     # Make sure all of our folders exist
-    for f in (cfg.newCastFolder, cfg.trimCastFolder, cfg.listeningFolder, cfg.iPodCastFolder):
+    for f in cfg.folders:
         try:
             os.makedirs(f)
         except OSError:
@@ -55,9 +55,8 @@ def select_and_move():
     for f in desiredFiles:
         src = path.join(cfg.trimCastFolder, f)
         dst = path.join(cfg.listeningFolder, f)
+        print 'shutil.move('+ src +', '+ dst +')'
         shutil.move(src, dst)
-    
-    return src, dst
 
 
 def download_trim_clean():
@@ -75,6 +74,7 @@ def copy_to_ipod():
     # reserve some space
     desiredFiles = os.listdir(cfg.listeningFolder)
     print 'Making buffer space'
+    #print 'shutil.copy('+ path.join(cfg.listeningFolder, desiredFiles[0]) +', '+ cfg.freeSpaceMagic +')'
     shutil.copy(path.join(cfg.listeningFolder, desiredFiles[0]), cfg.freeSpaceMagic)
     
     lastFile = None
@@ -100,8 +100,8 @@ def rebuild_ipod():
     os.system(p)
 
 
-#require_folders()
-#src, dst = select_and_move()
+require_folders()
+select_and_move()
 #download_trim_clean()
 copy_to_ipod()
 rebuild_ipod()

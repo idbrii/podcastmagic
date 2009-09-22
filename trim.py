@@ -97,10 +97,12 @@ def cut_and_replace_files(paths, min, sec):
                 , path.abspath(targetFilePath)
             )
 
-#        shutil.move(
-#            path.abspath(sourceFilePath)
-#            , 'Trash/.'
-#        )
+        trashFilePath = path.join(cfg.trashFolder, f)
+        #print 'shutil.move('+ path.abspath(sourceFilePath) +', '+ path.abspath(trashFilePath) +')'
+        shutil.move(
+            path.abspath(sourceFilePath)
+            , path.abspath(trashFilePath)
+        )
 
 
 class Paths():
