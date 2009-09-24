@@ -5,12 +5,16 @@ import shutil
 import sys
 import os
 import os.path as path
+import subprocess
+from multiprocessing import Process
 
 import config as cfg
 
 # TODO:
+    # TEST pod downloading and processing at the same time
     # copy a minimum of one of each podcast
     # TEST interrupts during copying and interpret as a skip the copy step
+    ## And interaction with downloading
     # print more of what's going on
     # run download and trim
     # copy oldest files first
@@ -76,12 +80,28 @@ def select_and_move():
         shutil.move(src, dst)
 
 
+def _internal_download_trim_clean():
+    p = ''
+    try:
+        p = 'podget'
+        subprocess.check_call([p])
+        p = path.normpath('./trim.py')
+        subprocess.check_call([p])
+    except subprocess.CalledProcessError, ex:
+        printWarning('Failed to run %s (%s)' % (p, ex))
+    except OSError, ex:
+        printWarning('Cannot find application %s (%s)' % (p, ex))
+
 def download_trim_clean():
     ###
     #printStep('Start download, trim, and cleanup in new thread')
-    #p = path.normpath('./trim.py')
-    #os.system(p)
-    pass
+
+    p = Process(target=_internal_download_trim_clean, args=())
+    p.start()
+    return p
+
+def wait_for_download(p):
+    p.join()
 
 
 def copy_to_ipod():
@@ -99,7 +119,7 @@ def copy_to_ipod():
         abort("Error: No space on device. Cannot copy any files (%s)" % ex)
     except KeyboardInterrupt, ex:
         printWarning('Interrupt caught, skipping copying step')
-        return      /////// Early Return
+        return      ####### Early Return
     
     for f in desiredFiles:
         printStatus( 'Copying: %s' % f )
@@ -130,6 +150,7 @@ def rebuild_ipod():
 
 ensure_folders()
 select_and_move()
-#download_trim_clean()
+p = download_trim_clean()
 copy_to_ipod()
 rebuild_ipod()
+wait_for_download(p)
