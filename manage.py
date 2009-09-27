@@ -41,9 +41,8 @@ def copyFile(src, dst):
     _shutilFunc(shutil.copy, src, dst)
 
 def removeFile(src):
-    func = os.remove
     printDebug( 'os.remove('+ src +')' )
-    func(src)
+    os.remove(src)
 
 
 def ensure_folders():
