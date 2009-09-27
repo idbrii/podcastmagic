@@ -161,14 +161,28 @@ def rebuild_ipod():
     os.system(p)
 
 
-ensure_folders()
-select_and_move()
-p = download_trim_clean()
-try:
-    copy_to_ipod()
-    rebuild_ipod()
-except IOError:
-    # When we get an io error, it's probably already been reported. We just
-    # need to skip everything else except waiting for our external process
-    pass
-wait_for_download(p)
+
+
+
+def main():
+    ensure_folders()
+    select_and_move()
+    p = download_trim_clean()
+    try:
+        copy_to_ipod()
+        rebuild_ipod()
+    except IOError:
+        # When we get an io error, it's probably already been reported. We just
+        # need to skip everything else except waiting for our external process
+        pass
+    wait_for_download(p)
+
+
+
+def _test():
+    import doctest
+    doctest.testmod()
+
+if __name__ == '__main__':
+    main()
+
