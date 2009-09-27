@@ -11,6 +11,7 @@ from multiprocessing import Process
 import config as cfg
 
 # TODO:
+    # FIX listening. it's not being emptied when files are copied
     # TEST pod downloading and processing at the same time
     # copy a minimum of one of each podcast
     # TEST interrupts during copying and interpret as a skip the copy step
