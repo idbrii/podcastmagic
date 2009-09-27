@@ -29,6 +29,17 @@ def printStatus(msg):
 printWarning = printStatus
 printDebug = printStatus
 
+# Wrap shutil so I can have debug output
+def _shutilFunc(func, src, dst):
+    printDebug( func.func_name +'('+ src +', '+ dst +')' )
+    func(src, dst)
+
+def moveFile(src, dst):
+    _shutilFunc(shutil.move, src, dst)
+
+def copyFile(src, dst):
+    _shutilFunc(shutil.copy, src, dst)
+
 def ensure_folders():
     ###
     # Make sure all of our folders exist
@@ -72,8 +83,7 @@ def select_and_move():
     for f in desiredFiles:
         src = path.join(cfg.trimCastFolder, f)
         dst = path.join(cfg.listeningFolder, f)
-        printDebug( 'shutil.move('+ src +', '+ dst +')' )
-        shutil.move(src, dst)
+        moveFile(src, dst)
 
 
 def _internal_download_trim_clean():
@@ -115,9 +125,8 @@ def copy_to_ipod():
     # reserve some space
     desiredFiles = os.listdir(cfg.listeningFolder)
     printStatus( 'Making buffer space' )
-    printDebug( 'shutil.copy('+ path.join(cfg.listeningFolder, desiredFiles[0]) +', '+ cfg.freeSpaceMagic +')' )
     try:
-        shutil.copy(path.join(cfg.listeningFolder, desiredFiles[0]), cfg.freeSpaceMagic)
+        copyFile(path.join(cfg.listeningFolder, desiredFiles[0]), cfg.freeSpaceMagic)
     except IOError, ex:
         printWarning("No space on device. Cannot copy any files (%s)" % ex)
         raise ex
@@ -131,7 +140,7 @@ def copy_to_ipod():
         dst = path.join(cfg.iPodCastFolder, f)
         try:
             # copy out of listening folder
-            shutil.copy(src, dst)
+            copyFile(src, dst)
             # if successful, then remove from listening folder
             os.remove(src)
         except IOError, ex:
