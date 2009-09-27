@@ -31,7 +31,7 @@ printDebug = printStatus
 
 # Wrap shutil so I can have debug output
 def _shutilFunc(func, src, dst):
-    printDebug( func.func_name +'('+ src +', '+ dst +')' )
+    printDebug( 'shutil.'+ func.func_name +'('+ src +', '+ dst +')' )
     func(src, dst)
 
 def moveFile(src, dst):
@@ -39,6 +39,12 @@ def moveFile(src, dst):
 
 def copyFile(src, dst):
     _shutilFunc(shutil.copy, src, dst)
+
+def removeFile(src):
+    func = os.remove
+    printDebug( 'os.remove('+ src +')' )
+    func(src)
+
 
 def ensure_folders():
     ###
@@ -142,7 +148,7 @@ def copy_to_ipod():
             # copy out of listening folder
             copyFile(src, dst)
             # if successful, then remove from listening folder
-            os.remove(src)
+            removeFile(src)
         except IOError, ex:
             printWarning( "Warning: Out of space on device (%s)" % ex )
             # failure means it will stay in listening folder for the next iPod sync
@@ -151,7 +157,7 @@ def copy_to_ipod():
     
     # free up junk space
     printStatus( 'Clearing buffer space' )
-    os.remove(cfg.freeSpaceMagic)
+    removeFile(cfg.freeSpaceMagic)
 
 
 def rebuild_ipod():
