@@ -144,10 +144,9 @@ def copy_to_ipod():
         src = path.join(cfg.listeningFolder, f)
         dst = path.join(cfg.iPodCastFolder, f)
         try:
-            # copy out of listening folder
-            copyFile(src, dst)
-            # if successful, then remove from listening folder
-            removeFile(src)
+            # move out of listening folder to ipod
+            # hopefully, the move will only occur if there's space
+            moveFile(src, dst)
         except IOError, ex:
             printWarning( "Warning: Out of space on device (%s)" % ex )
             # failure means it will stay in listening folder for the next iPod sync
