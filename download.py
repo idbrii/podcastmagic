@@ -2,6 +2,8 @@ import os
 import subprocess
 from multiprocessing import Process
 
+import util as u
+
 def _internal_download_trim_clean():
     p = ''
     devnull = open(os.devnull, 'w')
@@ -39,6 +41,7 @@ def wait_for_download(p):
 
 
 def main():
+    u.ensure_folders()
     dl.wait_for_download(dl.download_trim_clean())
 
 
