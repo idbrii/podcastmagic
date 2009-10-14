@@ -19,18 +19,9 @@ import download as dl
     # run download and trim
     # copy oldest files first
 
-def printStep(msg):
-    print
-    print '==', msg, '=='
-
-def printStatus(msg):
-    print msg
-printWarning = printStatus
-printDebug = printStatus
-
 # Wrap shutil so I can have debug output
 def _shutilFunc(func, src, dst):
-    printDebug( 'shutil.'+ func.func_name +'('+ src +', '+ dst +')' )
+    u.printDebug( 'shutil.'+ func.func_name +'('+ src +', '+ dst +')' )
     func(src, dst)
 
 def moveFile(src, dst):
@@ -40,23 +31,12 @@ def copyFile(src, dst):
     _shutilFunc(shutil.copy, src, dst)
 
 def removeFile(src):
-    printDebug( 'os.remove('+ src +')' )
+    u.printDebug( 'os.remove('+ src +')' )
     os.remove(src)
 
 
-def ensure_folders():
-    ###
-    # Make sure all of our folders exist
-    for f in cfg.folders:
-        try:
-            os.makedirs(f)
-        except OSError:
-            # Folder probably already exists, that's good
-            pass
-
-
 def select_and_move():
-    printStep( 'Find files to copy' )
+    u.printStep( 'Find files to copy' )
 
     desiredFiles = []
     
@@ -80,7 +60,7 @@ def select_and_move():
         if n is 0:
             break
 
-    printStatus('Found %d files to copy' % len(desiredFiles))
+    u.printStatus('Found %d files to copy' % len(desiredFiles))
     
     
     #   move to Listening folder
@@ -93,22 +73,22 @@ def select_and_move():
 def copy_to_ipod():
     ###
     # Copy files from Listening folder to iPod
-    printStep('Begin copy')
+    u.printStep('Begin copy')
     
     # reserve some space
     desiredFiles = os.listdir(cfg.listeningFolder)
-    printStatus( 'Making buffer space' )
+    u.printStatus( 'Making buffer space' )
     try:
         copyFile(path.join(cfg.listeningFolder, desiredFiles[0]), cfg.freeSpaceMagic)
     except IOError, ex:
-        printWarning("No space on device. Cannot copy any files (%s)" % ex)
+        u.printWarning("No space on device. Cannot copy any files (%s)" % ex)
         raise ex
     except KeyboardInterrupt, ex:
-        printWarning('Interrupt caught, skipping copying step')
+        u.printWarning('Interrupt caught, skipping copying step')
         return      ####### Early Return
     
     for f in desiredFiles:
-        printStatus( 'Copying: %s' % f )
+        u.printStatus( 'Copying: %s' % f )
         src = path.join(cfg.listeningFolder, f)
         dst = path.join(cfg.iPodCastFolder, f)
         try:
@@ -116,19 +96,19 @@ def copy_to_ipod():
             # hopefully, the move will only occur if there's space
             moveFile(src, dst)
         except IOError, ex:
-            printWarning( "Warning: Out of space on device (%s)" % ex )
+            u.printWarning( "Warning: Out of space on device (%s)" % ex )
             # failure means it will stay in listening folder for the next iPod sync
         except KeyboardInterrupt, ex:
-            printWarning('Interrupt caught, not copying any more files')
+            u.printWarning('Interrupt caught, not copying any more files')
     
     # free up junk space
-    printStatus( 'Clearing buffer space' )
+    u.printStatus( 'Clearing buffer space' )
     removeFile(cfg.freeSpaceMagic)
 
 
 def rebuild_ipod():
     ###
-    printStep( 'Rebuild the database' )
+    u.printStep( 'Rebuild the database' )
     p = path.normpath(cfg.rebuild_db)
     os.system(p)
 
@@ -137,7 +117,7 @@ def rebuild_ipod():
 
 
 def main():
-    ensure_folders()
+    u.ensure_folders()
     select_and_move()
     p = dl.download_trim_clean()
     try:
