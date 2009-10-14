@@ -5,10 +5,9 @@ import shutil
 import sys
 import os
 import os.path as path
-import subprocess
-from multiprocessing import Process
 
 import config as cfg
+import download as dl
 
 # TODO:
     # FIX listening. it's not being emptied when files are copied
@@ -91,40 +90,6 @@ def select_and_move():
         moveFile(src, dst)
 
 
-def _internal_download_trim_clean():
-    p = ''
-    devnull = open(os.devnull, 'w')
-    try:
-        p = 'podget'
-        subprocess.check_call([p], stderr=devnull, stdout=devnull)
-
-        p = path.join(os.getcwd(), 'trim.py')
-        p = path.normpath(p)
-        subprocess.check_call([p], stdout=devnull)
-
-    except subprocess.CalledProcessError, ex:
-        printWarning('Failed to run %s (%s)' % (p, ex))
-    except OSError, ex:
-        printWarning('Cannot find application %s (%s)' % (p, ex))
-    devnull.close()
-
-def download_trim_clean():
-    ###
-    #printStep('Start download, trim, and cleanup in new thread')
-
-    p = Process(target=_internal_download_trim_clean, args=())
-    p.start()
-    return p
-
-def wait_for_download(p):
-    # TODO: consider turning output back on (how?)
-    print
-    print
-    print 'Waiting for download to complete...'
-    print
-    p.join()
-
-
 def copy_to_ipod():
     ###
     # Copy files from Listening folder to iPod
@@ -174,7 +139,7 @@ def rebuild_ipod():
 def main():
     ensure_folders()
     select_and_move()
-    p = download_trim_clean()
+    p = dl.download_trim_clean()
     try:
         copy_to_ipod()
         rebuild_ipod()
@@ -182,7 +147,7 @@ def main():
         # When we get an io error, it's probably already been reported. We just
         # need to skip everything else except waiting for our external process
         pass
-    wait_for_download(p)
+    dl.wait_for_download(p)
 
 
 
