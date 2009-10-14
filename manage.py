@@ -97,8 +97,11 @@ def _internal_download_trim_clean():
     try:
         p = 'podget'
         subprocess.check_call([p], stderr=devnull, stdout=devnull)
-        p = path.normpath('./trim.py')
+
+        p = path.join(os.getcwd(), 'trim.py')
+        p = path.normpath(p)
         subprocess.check_call([p], stdout=devnull)
+
     except subprocess.CalledProcessError, ex:
         printWarning('Failed to run %s (%s)' % (p, ex))
     except OSError, ex:
