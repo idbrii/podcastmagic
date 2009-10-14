@@ -1,12 +1,21 @@
+#! /usr/bin/env python
+
+import sys
 import os
+import os.path as path
 import subprocess
 from multiprocessing import Process
 
 import util as u
+import config as cfg
 
-def _internal_download_trim_clean():
+def _internal_download_trim_clean(silence=True):
     p = ''
-    devnull = open(os.devnull, 'w')
+    if silence:
+        devnull = open(os.devnull, 'w')
+    else:
+        devnull = sys.stdout
+
     try:
         p = 'podget'
         subprocess.check_call([p], stderr=devnull, stdout=devnull)
@@ -19,7 +28,10 @@ def _internal_download_trim_clean():
         printWarning('Failed to run %s (%s)' % (p, ex))
     except OSError, ex:
         printWarning('Cannot find application %s (%s)' % (p, ex))
-    devnull.close()
+
+    # don't close stdio
+    if not silence:
+        devnull.close()
 
 def download_trim_clean():
     ###
@@ -41,8 +53,11 @@ def wait_for_download(p):
 
 
 def main():
+    u.printStep('Initializing')
     u.ensure_folders()
-    dl.wait_for_download(dl.download_trim_clean())
+    u.printStep('Beginning download')
+    _internal_download_trim_clean(False)
+    u.printStep('Done')
 
 
 
