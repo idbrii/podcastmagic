@@ -1,3 +1,10 @@
+#! /usr/bin/env python
+
+import os
+import sys
+
+import config as cfg
+
 def printStep(msg):
     print
     print '==', msg, '=='
