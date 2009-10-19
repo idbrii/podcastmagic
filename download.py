@@ -9,29 +9,68 @@ from multiprocessing import Process
 import util as u
 import config as cfg
 
+class IoWrapper(object):
+    """
+    This class represents 
+    """
+
+    def __init__(self, io):
+        """
+        Constructor.
+        
+        io -- A file io object
+        """
+        assert io != None
+        self._io = io
+    
+    def obj(self):
+        """
+        obj() --> file io object
+        """
+        return self._io
+        
+    def close(self):
+        """
+        close() --> None
+        Closes the io object, if applicable
+        """
+        self._io.close()
+        
+
+class StdOutWrapper(IoWrapper):
+    def __init__(self):
+        IoWrapper.__init__(self, sys.stdout)
+    def close(self):
+        """ We don't close stdout """
+        pass
+class DevNullWrapper(IoWrapper):
+    def __init__(self):
+        IoWrapper.__init__(self, open(os.devnull, 'w'))
+
+
 def _internal_download_trim_clean(silence=True):
     p = ''
+
     if silence:
-        devnull = open(os.devnull, 'w')
+        # We don't want to see output from our subprocess
+        output = DevNullWrapper()
     else:
-        devnull = sys.stdout
+        output = StdOutWrapper()
 
     try:
         p = 'podget'
-        subprocess.check_call([p], stderr=devnull, stdout=devnull)
+        subprocess.check_call([p], stderr=output.obj(), stdout=output.obj())
 
         p = path.join(os.getcwd(), 'trim.py')
         p = path.normpath(p)
-        subprocess.check_call([p], stdout=devnull)
+        subprocess.check_call([p], stdout=output.obj())
 
     except subprocess.CalledProcessError, ex:
         printWarning('Failed to run %s (%s)' % (p, ex))
     except OSError, ex:
         printWarning('Cannot find application %s (%s)' % (p, ex))
 
-    if silence:
-        devnull.close()
-    # else: don't close stdio
+    output.close()
 
 def download_trim_clean():
     ###
