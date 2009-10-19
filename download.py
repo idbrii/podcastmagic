@@ -29,9 +29,9 @@ def _internal_download_trim_clean(silence=True):
     except OSError, ex:
         printWarning('Cannot find application %s (%s)' % (p, ex))
 
-    # don't close stdio
-    if not silence:
+    if silence:
         devnull.close()
+    # else: don't close stdio
 
 def download_trim_clean():
     ###
