@@ -66,15 +66,15 @@ def _internal_download_trim_clean(silence=True):
         subprocess.check_call([p], stdout=output.obj())
 
     except subprocess.CalledProcessError, ex:
-        printWarning('Failed to run %s (%s)' % (p, ex))
+        u.printWarning('Failed to run %s (%s)' % (p, ex))
     except OSError, ex:
-        printWarning('Cannot find application %s (%s)' % (p, ex))
+        u.printWarning('Cannot find application %s (%s)' % (p, ex))
 
     output.close()
 
 def download_trim_clean():
     ###
-    #printStep('Start download, trim, and cleanup in new thread')
+    #u.printStep('Start download, trim, and cleanup in new thread')
 
     p = Process(target=_internal_download_trim_clean, args=())
     p.start()

@@ -22,11 +22,12 @@ startTime = {}
 startTime["ALifeWellWasted"] = 0
 startTime["Geekbox"] = 10
 startTime["GiantBombCast"] = 22
-startTime["ListenUp"] = 22
+#startTime["ListenUp"] = 22
 startTime["MobCast"] = 0
 # TODO: figure out rebel since there is game club
 startTime["RebelFM"] = 0
-startTime["SearchEngine"] = 13
+# TODO: figure out SearchEngine. it's outputting bad files. I used to cut at 13
+startTime["SearchEngine"] = 0
 
 
 # manage.py
