@@ -88,6 +88,7 @@ Options={
   "logging":True,
   "reuse":1,
   "logfile":"rebuild_db.log.txt",
+  "creation":False,
   "rename":False
 }
 domains=[]
@@ -207,6 +208,25 @@ def ParseRuleLine(line):
 
 ################################################################################
 
+def update_date_sort(item):
+  """ Sort the files by their creation time This should give a more even
+  unshuffled play through instead of the same podcast again and again.
+  """
+  key, junk, name = item
+  if not key:
+    # This isn't a podcast
+    return item
+
+  try:
+    # hack to add the folder into the path
+    # could do this better??
+    fullpath = os.path.join( os.getcwd(), 'podcasts', name )
+    statinfo = os.stat(fullpath)
+    return (statinfo.st_ctime, junk, name)
+  except:
+    # return the original if we fail to find
+    # (probably isn't a podcast anyway)
+    return item
 
 def safe_char(c):
   if c in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_":
@@ -358,7 +378,11 @@ def browse(path, interactive):
       except OSError:
         pass
 
+  if Options['creation']:
+    files = [update_date_sort(item) for item in files]
+
   files.sort(cmp_key)
+  # pydave: I depend on this logic where if x[0] is not 0 then it's a song
   count=len([None for x in files if x[0]])
   if count:
     domains.append([])
@@ -605,6 +629,7 @@ Mandatory arguments to long options are mandatory for short options too.
   -l, --nolog        do not create a log file
   -f, --force        always rebuild database entries, do not re-use old ones
   -L, --logfile      set log file name
+  -c, --creation-time sort files by creation time
 
 Must be called from the iPod's root directory. By default, the whole iPod is
 searched for playable files, unless at least one DIRECTORY is specified."""
@@ -617,8 +642,8 @@ def opterr(msg):
 
 def parse_options():
   try:
-    opts,args=getopt.getopt(sys.argv[1:],"hiv:snlfL:r",\
-              ["help","interactive","volume=","nosmart","nochdir","nolog","force","logfile=","rename"])
+    opts,args=getopt.getopt(sys.argv[1:],"hiv:snlfL:cr",\
+              ["help","interactive","volume=","nosmart","nochdir","nolog","force","logfile=","creation-time","rename"])
   except getopt.GetoptError, message:
     opterr(message)
   for opt,arg in opts:
@@ -642,6 +667,8 @@ def parse_options():
       Options['reuse']=0
     elif opt in ("-L","--logfile"):
       Options['logfile']=arg
+    elif opt in ("-c", "--creation-time"):
+      Options['creation']=True
     elif opt in ("-r","--rename"):
       Options['rename']=True
   return args
