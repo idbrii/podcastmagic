@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: iso-8859-1
+# vim: set ts=2 sw=2:
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -249,7 +250,7 @@ def write_to_db(filename):
     if reduce(operator.__and__,[MatchRule(props,rule) for rule in ruleset],True):
       props.update(action)
   if props['ignore']:
-      return 0
+    return 0
 
   # retrieve entry from known entries or rebuild it
   entry=props['reuse'] and (filename in KnownEntries) and KnownEntries[filename]
@@ -262,25 +263,25 @@ def write_to_db(filename):
   # write entry, modifying shuffleflag and bookmarkflag at least
   iTunesSD.write(entry[:555]+chr(props['shuffle'])+chr(props['bookmark'])+entry[557])
   if props['shuffle']:
-      domains[-1].append(total_count)
+    domains[-1].append(total_count)
   total_count+=1
   return 1
 
 
 def make_key(s):
   if not s:
-      return s
+    return s
   s=s.lower()
   for i in xrange(len(s)):
     if s[i].isdigit():
-        break
+      break
   if not s[i].isdigit():
-      return s
+    return s
   for j in xrange(i,len(s)):
     if not s[j].isdigit():
-        break
+      break
   if s[j].isdigit():
-      j+=1
+    j+=1
   return (s[:i],int(s[i:j]),make_key(s[j:]))
 
 def key_repr(x):
@@ -298,7 +299,7 @@ def cmp_key(a,b):
 
 def file_entry(path,name,prefix=""):
   if not(name) or name[0]==".":
-      return None
+    return None
   fullname="%s/%s"%(path,name)
   may_rename=not(fullname.startswith("./iPod_Control")) and Options['rename']
   try:
@@ -306,11 +307,11 @@ def file_entry(path,name,prefix=""):
       return None
     if os.path.isdir(fullname):
       if may_rename:
-          name=rename_safely(path,name)
+        name=rename_safely(path,name)
       return (0,make_key(name),prefix+name)
     if os.path.splitext(name)[1].lower() in (".mp3",".m4a",".m4b",".m4p",".aa",".wav"):
       if may_rename:
-          name=rename_safely(path,name)
+        name=rename_safely(path,name)
       return (1,make_key(name),prefix+name)
   except OSError:
     pass
@@ -321,10 +322,10 @@ def browse(path, interactive):
   global domains
 
   if path[-1]=="/":
-      path=path[:-1]
+    path=path[:-1]
   displaypath=path[1:]
   if not displaypath:
-      displaypath="/"
+    displaypath="/"
 
   if interactive:
     while 1:
@@ -333,7 +334,7 @@ def browse(path, interactive):
       except EOFError:
         raise KeyboardInterrupt
       if not choice:
-          continue
+        continue
       if choice in "at":    # all/alle/tous/<dontknow>
         interactive=0
         break
@@ -360,7 +361,7 @@ def browse(path, interactive):
   files.sort(cmp_key)
   count=len([None for x in files if x[0]])
   if count:
-      domains.append([])
+    domains.append([])
 
   real_count=0
   for item in files:
@@ -381,12 +382,12 @@ def browse(path, interactive):
 
 def stringval(i):
   if i<0:
-      i+=0x1000000
+    i+=0x1000000
   return "%c%c%c"%(i&0xFF,(i>>8)&0xFF,(i>>16)&0xFF)
 
 def listval(i):
   if i<0:
-      i+=0x1000000
+    i+=0x1000000
   return [i&0xFF,(i>>8)&0xFF,(i>>16)&0xFF]
 
 
@@ -445,7 +446,7 @@ def smart_shuffle():
   for d in xrange(len(domains)):
     used=[]
     if not domains[d]:
-        continue
+      continue
     for n in domains[d]:
       # find slices where the nearest track of the same domain is far away
       metric=[min([slice_count]+[min(abs(s-u),abs(s-u+slice_count),abs(s-u-slice_count)) for u in used]) for s in xrange(slice_count)]
@@ -529,7 +530,7 @@ Please make sure that:
   except (IOError,EOFError):
     pass
   if iTunesSD:
-      iTunesSD.close()
+    iTunesSD.close()
 
   if len(header)==51:
     log("Using iTunesSD headers from existing database.")
