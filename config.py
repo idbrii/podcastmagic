@@ -22,10 +22,10 @@ startTime = {}
 startTime["ALifeWellWasted"] = 0
 startTime["Geekbox"] = 10
 startTime["GiantBombCast"] = 22
-#startTime["ListenUp"] = 22
-startTime["MobCast"] = 0
-# TODO: figure out rebel since there is game club
-startTime["RebelFM"] = 0
+startTime["ListenUp"] = 35
+startTime["MobCast"] = 50
+# both rebel and game club have long intros
+startTime["RebelFM"] = 29
 # TODO: figure out SearchEngine. it's outputting bad files. I used to cut at 13
 startTime["SearchEngine"] = 0
 
