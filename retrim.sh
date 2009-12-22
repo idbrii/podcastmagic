@@ -43,7 +43,7 @@ function cutFile()
 }
 
 #####
-# What files to trim
+# Make sure the input/output folders exists
 mkdir -p $in $out 2> /dev/null
 
 #####
