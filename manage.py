@@ -9,6 +9,7 @@ import os.path as path
 import config as cfg
 import download as dl
 import util as u
+import namemanip
 
 # TODO:
     # FIX listening. it's not being emptied when files are copied
@@ -55,9 +56,8 @@ def select_and_move():
     
     #   find oldest files
     n = cfg.maxFilesToCopy
-    sortedKeys = fData.keys()
-    sortedKeys.sort()
-    for k in sortedKeys:
+    
+    for k in fData.keys():
         desiredFiles.append( fData[k] )
         n -= 1
         if n is 0:
@@ -67,12 +67,10 @@ def select_and_move():
     
     
     #   move to Listening folder
-    count = 0
     for f in desiredFiles:
         src = path.join(cfg.trimCastFolder, f)
-        dst = path.join(cfg.listeningFolder, str(count)+'_'+f)
+        dst = path.join(cfg.listeningFolder, namemanip.find_date(f)+'_'+f)
         moveFile(src, dst)
-        count += 1
 
 
 def copy_to_ipod():
