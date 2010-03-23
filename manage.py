@@ -55,7 +55,9 @@ def select_and_move():
     
     #   find oldest files
     n = cfg.maxFilesToCopy
-    for k in fData.keys():
+    sortedKeys = fData.keys()
+    sortedKeys.sort()
+    for k in sortedKeys:
         desiredFiles.append( fData[k] )
         n -= 1
         if n is 0:
@@ -65,10 +67,12 @@ def select_and_move():
     
     
     #   move to Listening folder
+    count = 0
     for f in desiredFiles:
         src = path.join(cfg.trimCastFolder, f)
-        dst = path.join(cfg.listeningFolder, f)
+        dst = path.join(cfg.listeningFolder, str(count)+'_'+f)
         moveFile(src, dst)
+        count += 1
 
 
 def copy_to_ipod():
