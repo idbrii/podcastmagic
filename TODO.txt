@@ -1,0 +1,22 @@
+GUI {{{
+* consult w/ Yanna on GUI
+* download button instead of auto launching download.py
+** Provide update of download info -- maybe parse download output? Check flags to see if there's an easy way to determine progress.
+* Display what's on the ipod. Allow you to play a song and trim at current position. Allow concurrent trimming to occur while listening to other songs (but lock the trimmee)
+
+}}}
+
+
+Core {{{
+* Customize date length for prefix (909090_podcast.mp3)
+
+}}}
+
+
+Packaging {{{
+* Determine dependencies
+
+}}}
+
+
+# vim:set fdm=marker:
