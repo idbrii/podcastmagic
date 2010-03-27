@@ -125,11 +125,15 @@ def main():
     p = dl.download_trim_clean()
     try:
         copy_to_ipod()
-        rebuild_ipod()
     except IOError:
         # When we get an io error, it's probably already been reported. We just
         # need to skip everything else except waiting for our external process
         pass
+    try:
+        rebuild_ipod()
+    except IOError:
+        u.printWarning("Failed to rebuild ipod database!")
+
     dl.wait_for_download(p)
 
 
