@@ -3,10 +3,9 @@
 
 # Where your iPod is mounted
 iPod = '/media/YITHIAN/'
-# for testing: iPod = '/home/dbriscoe/data/podcasts/media/YITHIAN/'
 
 # Where your rebuild_db script is located
-rebuild_db = iPod +'/rebuild_db.py --creation-time'
+rebuild_db = iPod +'/rebuild_db.py'
 
 # folders
 trashFolder = '/home/dbriscoe/data/podcasts/Trash'
