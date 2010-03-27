@@ -20,6 +20,7 @@ import namemanip
     # print more of what's going on
     # run download and trim
     # copy oldest files first
+    # ensure all folders exist
 
 # Wrap shutil so I can have debug output
 def _shutilFunc(func, src, dst):
