@@ -1,20 +1,17 @@
 podcastmagic is a simple and highly-automatic podcast manager
 
-.. contents ::
-
 ==========
 Motivation
 ==========
 
-I like to listen to a lot of podcasts. I have a second generation iPod Shuffle
-that I use exclusively for podcasts. podcastmagic suits those requirements very
-well.
+I listen to a lot of podcasts on my second generation iPod Shuffle.
+podcastmagic is my simple solution for downloading podcasts, preparing them for
+listening, and copying to my iPod.
 
-Previously, I used iTunes on my aging Mac, but I found it slow and
-difficult to use AppleScript to automate trimming the intro songs off of
-podcasts and copying to my iPod. When I bought a new PC and put ubuntu on it, I
-decided that I'd develop my perfect solution. It's not perfect yet, but I'm
-pretty happy.
+Previously, I used iTunes on my aging Mac, but I found it slow and difficult to
+automate trimming the intro songs off of podcasts and copying to my iPod (with
+AppleScript). When I bought a new PC and put ubuntu on it, I decided that I'd
+develop my perfect solution. It's not perfect yet, but I'm pretty happy.
 
 
 
@@ -24,8 +21,7 @@ Dependencies
 
 As with most great software, podcastmagic builds on the work of others. It
 calls two programs directly and runs on Python. Below are the programs, the
-containing package and version I use, and some information about them in
-Ubuntu.
+containing package and version I use, and Ubuntu package information.
 
 podget
 	podget_0.5.8  -- http://packages.ubuntu.com/search?keywords=podget
@@ -35,12 +31,18 @@ python
 	python_2.6.4    -- http://packages.ubuntu.com/search?keywords=python
 
 
+If you use Ubuntu, you already have python and if you enabled the
+`universe repository <https://help.ubuntu.com/community/Repositories/Ubuntu#Ubuntu%20Software%20Tab>`_:,
+then installing the former two packages is easy::
+
+    sudo aptitude install podget poc-streamer
+
 
 =============
 Configuration
 =============
 
-First, you need to setup podget. Man podget for details. In short, run podget
+First, setup podget. Man podget for details. In short, run podget
 once to create sample config files. Edit ~/.podget/podgetrc to set dir_library
 to your podcast destination. Then add your rss feeds to ~/.podget/serverlist.
 Make sure the category for all podcasts is "New". For example: ::
@@ -55,7 +57,7 @@ Next, you should copy the rebuild_db.py script onto your iPod. Copy it into the 
 
 Edit podcastmagic's config.py file to match your local settings. Setup your
 iPod's name and your trim times. The name used is the same as the last name
-used. In my above example, the name is SearchEngine.
+used. In my above example, the podcast's name is SearchEngine.
 
 Now you should be ready to give it a run.
 
