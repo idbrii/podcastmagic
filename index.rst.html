@@ -1,1 +1,414 @@
-test
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.5: http://docutils.sourceforge.net/" />
+<title></title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 5196 2007-06-03 20:25:28Z wiemann $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left {
+  clear: left }
+
+img.align-right {
+  clear: right }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font-family: serif ;
+  font-size: 100% }
+
+pre.literal-block, pre.doctest-block {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document">
+
+
+<p>podcastmagic is a simple and highly-automatic podcast manager</p>
+<div class="section" id="motivation">
+<h1>Motivation</h1>
+<p>I listen to a lot of podcasts on my second generation iPod Shuffle.
+podcastmagic is my simple solution for downloading podcasts, preparing them for
+listening, and copying to my iPod.</p>
+<p>Previously, I used iTunes on my aging Mac, but I found it slow and difficult to
+automate trimming the intro songs off of podcasts and copying to my iPod (with
+AppleScript). When I bought a new PC and put ubuntu on it, I decided that I'd
+develop my perfect solution. It's not perfect yet, but I'm pretty happy.</p>
+</div>
+<div class="section" id="dependencies">
+<h1>Dependencies</h1>
+<p>As with most great software, podcastmagic builds on the work of others. It
+calls two programs directly and runs on Python. Below are the programs, the
+containing package and version I use, and Ubuntu package information.</p>
+<dl class="docutils">
+<dt>podget</dt>
+<dd>podget_0.5.8  -- <a class="reference external" href="http://packages.ubuntu.com/search?keywords=podget">http://packages.ubuntu.com/search?keywords=podget</a></dd>
+<dt>mp3cut</dt>
+<dd>poc-streamer_0.4.2  -- <a class="reference external" href="http://packages.ubuntu.com/search?keywords=poc-streamer">http://packages.ubuntu.com/search?keywords=poc-streamer</a></dd>
+<dt>python</dt>
+<dd>python_2.6.4    -- <a class="reference external" href="http://packages.ubuntu.com/search?keywords=python">http://packages.ubuntu.com/search?keywords=python</a></dd>
+</dl>
+<p>If you use Ubuntu, you already have python and if you enabled the
+<a class="reference external" href="https://help.ubuntu.com/community/Repositories/Ubuntu#Ubuntu%20Software%20Tab">universe repository</a>:,
+then installing the former two packages is easy:</p>
+<pre class="literal-block">
+sudo aptitude install podget poc-streamer
+</pre>
+</div>
+<div class="section" id="configuration">
+<h1>Configuration</h1>
+<p>First, setup podget. Man podget for details. In short, run podget
+once to create sample config files. Edit ~/.podget/podgetrc to set dir_library
+to your podcast destination. Then add your rss feeds to ~/.podget/serverlist.
+Make sure the category for all podcasts is &quot;New&quot;. For example:</p>
+<pre class="literal-block">
+http://feeds.tvo.org/tvo/searchengine New SearchEngine
+</pre>
+<p>Now, when you run podget, it should download podcasts. podcastmagic doesn't
+have any special interaction with podget, it just calls it to download new
+podcasts.</p>
+<p>Next, you should copy the rebuild_db.py script onto your iPod. Copy it into the root directory.</p>
+<p>Edit podcastmagic's config.py file to match your local settings. Setup your
+iPod's name and your trim times. The name used is the same as the last name
+used. In my above example, the podcast's name is SearchEngine.</p>
+<p>Now you should be ready to give it a run.</p>
+</div>
+<div class="section" id="usage">
+<h1>Usage</h1>
+<p>There are several primary scripts:</p>
+<dl class="docutils">
+<dt>download.py</dt>
+<dd>Checks that some folders exist and downloads the podcasts.</dd>
+<dt>manage.py</dt>
+<dd>Runs download.py in another thread and starts working on the files we
+already have. Trims and copies the files to the iPod and rebuilds the
+database.</dd>
+<dt>trim.py</dt>
+<dd>Removes the introduction of the podcast as specified in config.py.
+Generally, you don't run this manually.</dd>
+<dt>retrim.sh</dt>
+<dd>Manually trim your podcasts from your iPod.</dd>
+</dl>
+<p>Generally, you'll be doing two things: manage or retrim.</p>
+<div class="section" id="manage">
+<h2>Manage</h2>
+<p>Downloads and copies podcasts onto your iPod.</p>
+<ul>
+<li><p class="first">Connect your iPod.</p>
+</li>
+<li><p class="first">Run manage.py</p>
+<blockquote>
+<ul class="simple">
+<li>If you don't have any podcasts downloaded, you'll get an error and then
+the program will stall while it downloads podcasts. Currently, you don't
+get any output until the download completes.</li>
+<li>If you have processed podcasts, it moves them to Listening and prepends
+any embedded dates (for sorting). It begins copying the podcasts. Once
+the copy is complete, it rebuilds the database (using the rebuild_db.py
+on the iPod).</li>
+<li>Concurrently, it starts downloading podcasts. Once podcasts are
+downloaded, it trims from the beginning of the file the amount specified
+in config.py.</li>
+<li>podcastmagic will wait for both the download/trim and copy process to
+complete before exiting.</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="retrim">
+<h2>Retrim</h2>
+<p>Manually remove beginning of podcasts. Generally useful if you started
+listening to a podcast and lost your position. (My iPod shuffle doesn't keep
+position after a power off and it is easy to accidentally skip to the next
+podcasts.)</p>
+<ul>
+<li><p class="first">Connect your iPod.</p>
+</li>
+<li><p class="first">Browse the podcasts on your iPod</p>
+</li>
+<li><p class="first">Determine the desired new beginning (example: I stopped listening to
+giantbombcast-081809.mp3 after almost an hour and a half -- at 1:26:09)</p>
+</li>
+<li><p class="first">Add a section to retrim.sh with the filename and desired start time.:</p>
+<pre class="literal-block">
+name=giantbombcast-081809.mp3
+start=1:26:09
+cutFile $name $start
+</pre>
+</li>
+<li><p class="first">Once you've done this for all of your podcasts, run retrim.sh. It will copy
+the files locally, trim them, and copy them back.</p>
+</li>
+<li><p class="first">NOTE: retrim.sh will NOT rebuild your iPod database. I typically run this before manage.py.</p>
+</li>
+</ul>
+<!-- # vim:set fdm=indent: -->
+</div>
+</div>
+</div>
+</body>
+</html>
